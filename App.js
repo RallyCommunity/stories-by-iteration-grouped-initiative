@@ -23,7 +23,7 @@ Ext.define('CustomApp', {
          
         Ext.create('Rally.data.wsapi.Store', {
                 model: 'UserStory',
-                fetch: ['ObjectID', 'FormattedID', 'Name', 'ScheduleState', 'Feature', 'PlanEstimate', 'Parent'],
+                fetch: ['ObjectID', 'FormattedID', 'Name', 'ScheduleState', 'Feature', 'PlanEstimate', 'Parent','Project'],
                 autoLoad: true,
                 filters: [filter],
                 listeners: {
@@ -79,6 +79,7 @@ Ext.define('CustomApp', {
                         var storyName  = story.get('Name');
                         var storyState = story.get('ScheduleState');
                         var feature = story.get('Feature');
+                        var storyProject = story.get('Project')._refObjectName;
                         
                         result = {
                                     "_ref"          : storyRef,
@@ -90,7 +91,8 @@ Ext.define('CustomApp', {
                                     "Feature"       : feature,
                                     "FeatureState"  : featureState,
                                     "FeatureID"     : featureFid,
-                                    "Initiative"    : featureParent
+                                    "Initiative"    : featureParent,
+                                    "StoryProject" : storyProject
                                 };
                         deferred.resolve(result);    
                     }
@@ -153,6 +155,9 @@ Ext.define('CustomApp', {
                 },
                 {
                     text: 'Feature State', dataIndex: 'FeatureState',
+                },
+                {
+                    text: 'Story Project', dataIndex: 'StoryProject',
                 }
             ]
         });
